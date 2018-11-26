@@ -1,4 +1,4 @@
-# Twitter-sentiment-analysis
+# Twitter-sentiment-analysis for Election prediction 
 In this project, I analyze a dataset of Tweets for election predicition. I used a Jupyter Notebook with 3.6 Python. The external libraries used are NumPy, Pandas, Seaborn,Matplotlib,Tweepy and Text blob.
 
 The Anaconda (https://www.anaconda.com) environment I used to create this is included in the repository 
@@ -16,5 +16,5 @@ Third, the data will be analyzed.
 Lastly, a function has been created where a user can input their personal information to see their probability of winning party in the election
 
 Algorithms:
-Naive bayes Classification
-SVM
+Naive bayes Classification,
+SVM.
