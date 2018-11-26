@@ -161,4 +161,4 @@ if __name__ == '__main__':
         predictions = [(str(j), int(predictions[j]))
                        for j in range(len(test_tweets))]
         utils.save_results_to_csv(predictions, 'naivebayes.csv')
-        print '\nSaved to naivebayes.csv'
+        print '\n data Saved to naivebayes.csv'
