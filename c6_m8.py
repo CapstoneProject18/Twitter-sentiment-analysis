@@ -1,15 +1,3 @@
-'''
------------------pseudo code ---------------------
-1. giving file path
-2. intializing the fileds and row list
-3. reading csv file
-4. only taking distinct rows
-5. then from distinct rows put count on offshore and onsite who are not contractor and interns
-6. plotting bar graph 
-
-'''
-
-
 import csv
 import matplotlib.pyplot as pt
 
@@ -59,8 +47,8 @@ for x in dates:
 print("{}  {}".format(onsite,offshore))
 
 
-pt.bar(dates,offshore, width = 0.5, color = "green", label="Offshore")
-pt.bar(dates,onsite,width = 0.5,color = "red", label = "Onsite")
+pt.bar(dates,offshore, width = 0.3, color = "green", label="Offshore")
+pt.bar(dates,onsite,width = 0.3,color = "red", label = "Onsite")
 
 pt.legend(loc ="best")
 pt.title("Off/On")

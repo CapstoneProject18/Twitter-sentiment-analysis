@@ -1,160 +1,79 @@
-# This is a word game
+'''
+1. dashes as len of secret word that is picked by computer
+2. max guesses permitted are 10
+3. if guess_left = -1 and dashes == secret_word
+4. if guesses != 1
+        print only one guess
+5. update dashes method:
+
+
+'''
+
+
 import random
 
-
-def print_scaffold(guesses, wd): # prints the scaffold
-		if (guesses == 0):
-				print ("_________")
-				print ("|	 |")
-				print ("|")
-				print ("|")
-				print ("|")
-				print ("|")
-				print "|________"
-		elif (guesses == 1):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|"
-				print "|"
-				print "|"
-				print "|________"
-		elif (guesses == 2):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|	 |"
-				print "|	 |"
-				print "|"
-				print "|________"
-		elif (guesses == 3):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|	\|"
-				print "|	 |"
-				print "|"
-				print "|________"
-		elif (guesses == 4):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|	\|/"
-				print "|	 |"
-				print "|"
-				print "|________"
-		elif (guesses == 5):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|	\|/"
-				print "|	 |"
-				print "|	/ "
-				print "|________"
-		elif (guesses == 6):
-				print "_________"
-				print "|	 |"
-				print "|	 O"
-				print "|	\|/"
-				print "|	 |"
-				print "|	/ \ "
-				print "|________"
-				print "\n"
-				print "The word was %s." %wd
-				print "\n"
-				print "\nYOU LOSE! TRY AGAIN!"
-				print "\nWould you like to play again, type 1 for yes or 2 for no?"
-				again = str(raw_input("> "))
-				again = again.lower()
-				if again == "1":
-				  hangMan()
-				return
-
-def selectWord():
-	file = open('FREQ')
-	words = file.readlines() 
-	myword = 'a'
-	while len(myword) < 4: # makes sure word is at least 4 letters long
-	  myword = random.choice(words)
-  	myword = str(myword).strip('[]')
-  	myword = str(myword).strip("''")
-  	myword = str(myword).strip("\n")
-  	myword = str(myword).strip("\r")
-	myword = myword.lower()
-	return myword
-
-
-def hangMan():
-  guesses = 0					
-  word = selectWord()				
-  word_list = list(word)	
-  blanks = "_"*len(word)	
-  blanks_list = list(blanks) 
-  new_blanks_list = list(blanks)
-  guess_list = []
+def get_guess():
   
-  print "Let's play hangman!\n"
-  print_scaffold(guesses, word)
-  print "\n"
-  print "" + ' '.join(blanks_list)
-  print "\n"
-  print "Guess a letter.\n"
+  # Set the dashes to the length of the secret word and set the amount of guesses 
+  # the user has to 10
+  dashes = "-" * len(secret_word)
+  guesses_left = 10
   
-  while guesses < 6:
+  # This will loop as long as BOTH conditions are true:
+  # 1. The number of guesses of left is greater than -1
+  # 2. The dash string does NOT equal the secret word
+  while guesses_left > -1 and not dashes == secret_word:
+    
+    # Print the amount of dashes and guesses left
+    print(dashes)
+    print (str(guesses_left))
+    
+    # Ask the user for input
+    guess = input("Guess:")
+    
+    # Conditions that will print out a message according to
+    # invalid inputs
+    if len(guess) != 1:
+      print ("Your guess must have exactly one character!")
+      
+    # If the guess is in the secret word then we updtae dashes to replace the
+    # corresponding dash with the correct index the guess belongs to in the 
+    # secret word
+    elif guess in secret_word:
+      print ("That letter is in the secret word!")
+      dashes = update_dashes(secret_word, dashes, guess)
+      
+    # If the guess is wrong then we display a message and subtract
+    # the amount of guesses the user has by 1
+    else:
+      print ("That letter is not in the secret word!")
+      guesses_left -= 1
+    
+  if guesses_left < 0:
+    print ("You lose. The word was: " + str(secret_word))
   
-  		guess = str(raw_input("> "))
-  		guess = guess.lower()
-  		
-  		if len(guess) > 1:
-  				print "Stop cheating! Enter one letter at time."
-  		elif guess == "":
-  				print "Don't you want to play? Enter one letter at a time."
-  		elif guess in guess_list:
-  				print "You already guessed that letter! Here is what you've guessed:"
-  				print ' '.join(guess_list)
-  		else:
-  				guess_list.append(guess)
-  				i = 0
-  				while i < len(word):
-  						if guess == word[i]:
-  								new_blanks_list[i] = word_list[i]
-  						i = i+1
+  # If the dash string equals the secret word in the end then the
+  # user wins
+  else:
+    print ("Congrats! You win. The word was: " + str(secret_word))
+    
+# This function updates the string of dashes by replacing the dashes
+# with words that match up with the hidden word if the user manages to guess
+# it correctly
+def update_dashes(secret, cur_dash, rec_guess):
+  result = ""
   
-  				if new_blanks_list == blanks_list:
-  						print "Your letter isn't here."
-  						guesses = guesses + 1
-  						print_scaffold(guesses, word)
-  						
-  						if guesses < 6:
-  								print "Guess again."
-  								print ' '.join(blanks_list)
-  						
-  				elif word_list != blanks_list:
-  						
-  						blanks_list = new_blanks_list[:]
-  						print ' '.join(blanks_list)
-  						
-  						if word_list == blanks_list:
-  						  print "\nYOU WIN! Here is your prize:"
-  						  print "\n"
-  						  print "Would you like to play again?"
-  						  print "Type 1 for yes or 2 for no."
-  						  again = str(raw_input("> "))
-  						  if again == "1":
-  						    hangMan()
-  						  quit()
-  						
-  						else:
-  								print "Great guess! Guess another!"
-												
-hangMan()
+  for i in range(len(secret)):
+    if secret[i] == rec_guess:
+      result = result + rec_guess     # Adds guess to string if guess is correctly
+      
+    else:
+      # Add the dash at index i to result if it doesn't match the guess
+      result = result + cur_dash[i]
+      
+  return result
+    
+words = ["bob", "cool", "army","computer","mouse","keyboard","hash","security","bottle","chair","board"]
 
-
-
-	
-
-
-
-
-
-
+secret_word = random.choice(words)
+get_guess()
